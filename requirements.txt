@@ -1,0 +1,12 @@
+pillow
+pip-chill
+psycopg2
+python-dateutil
+tqdm
+PyYAML
+setuptools
+playsound
+espeakng
+nltk
+tensorflow
+matplotlib

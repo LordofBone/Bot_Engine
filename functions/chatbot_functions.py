@@ -1,18 +1,26 @@
-try:
-    from bot_8 import BotLoop
-    from bot_8_trainer import bot_trainer
-    from Chatbot_8.ml.markovify.markovify_trainer import mk_trainer
-    from Chatbot_8.ml.markovify.markovify_delete_models import mk_model_delete
-except ModuleNotFoundError:
-    raise Exception("Chatbot not installed, run 'git clone https://github.com/LordofBone/Chatbot_8' and then 'pip "
-                    "install -e Chatbot_8'")
 import logging
 
 import psycopg2
-from database.delete_db import delete_db
-from database.setup_db import fresh_db_setup
 
 from config.gui_config import *
+
+import_success = False
+
+while not import_success:
+    try:
+        from bot_8 import BotLoop
+        from bot_8_trainer import bot_trainer
+        from database.delete_db import delete_db
+        from database.setup_db import fresh_db_setup
+        from Chatbot_8.ml.markovify.markovify_trainer import mk_trainer
+        from Chatbot_8.ml.markovify.markovify_delete_models import mk_model_delete
+
+        import_success = True
+    except ModuleNotFoundError:
+        import pip
+
+        pip.main(['install', '-e', 'Chatbot_8/'])
+        print("Chatbot was not installed, have installed with PIP and retrying...")
 
 logger = logging.getLogger("nltk-chatbot-functions-logger")
 

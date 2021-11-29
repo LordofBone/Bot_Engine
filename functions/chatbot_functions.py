@@ -2,7 +2,7 @@ import logging
 
 import psycopg2
 
-from config.gui_config import *
+from config.bot_config import *
 
 from utils.pathutils import bot_installer
 

@@ -120,4 +120,4 @@ Contains locations for all the Tensorflow models and datasets as well as trainin
 
 ###### voice_config.py
 
-Here audio can be switched on or off and the varying levels of the Chatbots pitch and cadence can be adjusted.
+Here audio can be switched on or off and the varying levels of the Chat bots pitch and cadence can be adjusted.

@@ -1,4 +1,5 @@
-from config.gui_config import *
+from config.bot_config import *
+from config.machine_interface_config import *
 from functions.admin_controls import admin_control
 from functions.chatbot_functions import BotInterface
 from functions.emotion_controller import EmotionEngineInterface
@@ -40,10 +41,14 @@ class CoreSystem:
         return self.bot_reply
 
     def boot(self):
-        if gui_on:
+        if interface_mode == "GUI":
             gui_control = GUIController(self)
             gui_control.begin()
-        else:
+        elif interface_mode == "TERM":
+            VoiceControllerAccess.play_online()
+            term_control = TerminalController(self)
+            term_control.talk_loop()
+        elif interface_mode == "ROBOT":
             VoiceControllerAccess.play_online()
             term_control = TerminalController(self)
             term_control.talk_loop()

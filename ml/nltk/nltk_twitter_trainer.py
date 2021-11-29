@@ -14,22 +14,23 @@ from ml.nltk.nltk_twitter_data_processor import process_data
 logger = logging.getLogger("nltk-twitter-trainer-logger")
 
 
+# todo: remove the if else here as saved_model should always exist
 def delete_model():
-    if os.path.exists(f'{model_path}/saved_model'):
-        logger.debug(f'Model: {model_path}/saved_model exists, deleting.')
-        delete_with_override(f'{model_path}/saved_model')
+    if os.path.exists(model_path_saved):
+        logger.debug(f'Model: {model_path_saved} exists, deleting.')
+        delete_with_override(f'{model_path_saved}/saved_model')
 
     else:
-        logger.debug(f'Model: {model_path}/saved_model does not currently exist, no deletion required.')
+        logger.debug(f'Model: {model_path_saved}/saved_model does not currently exist, no deletion required.')
 
 
 # todo: folders will always exist as a part of the repo now; need to adjust to code to account for this
 def export_model(model_to_save):
     try:
-        f = open(f'{model_path}/saved_model/saved_classifier.pickle', 'wb')
+        f = open(f'{model_path_saved}/saved_classifier.pickle', 'wb')
     except FileNotFoundError:
-        os.mkdir(f'{model_path}/saved_model/')
-        f = open(f'{model_path}/saved_model/saved_classifier.pickle', 'wb')
+        os.mkdir(model_path_saved)
+        f = open(f'{model_path_saved}/saved_classifier.pickle', 'wb')
     pickle.dump(model_to_save, f)
     f.close()
 

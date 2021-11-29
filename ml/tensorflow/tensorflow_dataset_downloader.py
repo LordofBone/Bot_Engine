@@ -3,6 +3,8 @@ import shutil
 
 import tensorflow as tf
 
+from utils.pathutils import delete_with_override
+
 from config.tensorflow_config import *
 
 """Code from https://www.tensorflow.org/tutorials/keras/text_classification """
@@ -16,7 +18,9 @@ def download_aclimdb():
 
 def remove_folders():
     remove_dir = os.path.join(train_path, 'unsup')
-    shutil.rmtree(remove_dir)
+    # shutil.rmtree(remove_dir)
+    delete_with_override(remove_dir)
+
 
 
 def view_one():

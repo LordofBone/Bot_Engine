@@ -48,7 +48,7 @@ class TextClassifierTwitter:
         self.load_model()
 
     def load_model(self):
-        self.path = f'{model_path}/saved_classifier.pickle'
+        self.path = f'{model_path_saved}/saved_classifier.pickle'
 
         logger.debug(f'Loading model: {self.path}')
 

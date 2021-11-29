@@ -20,9 +20,15 @@ So feel free to take the code/framework and make your own bots with it.
 
 ##### Installation
 
+Ensure you have Python 3.9 installed (this is what I have been using for it so far).
+
 Ensure you have git installed and get Bot Engine and the Chatbot with:
 
 `git clone --recursive https://github.com/LordofBone/Bot_Engine`
+
+Then set up a python venv (https://docs.python-guide.org/dev/virtualenvs/) and install the requirements:
+
+`pip install -r requirements.txt`
 
 ##### eSpeak setup
 
@@ -64,7 +70,7 @@ This should also install the submodule 'Chatbot_8' using the command:
 
 `pip install -e Chatbot_8/`
 
-If you would prefer to run this yourself, you can. This is a bit of a hacky way to get around the weird directory 
+If you preferred to run this yourself, you can. This is a bit of a hacky way to get around the weird directory 
 structure stuff you have to deal with in Python; I find that if I just import stuff from the Chatbot_8 directory 
 it has trouble finding the /data/training folders and stuff as Python likes to be relative to the file it's initially 
 being run from.

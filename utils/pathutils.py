@@ -1,5 +1,6 @@
 import stat
 import os
+import pip
 
 
 def delete_with_override(path):
@@ -14,3 +15,7 @@ def delete_with_override(path):
             os.rmdir(os.path.join(root, name))
     # os.chmod(path, stat.S_IWUSR)
     # os.rmdir(path)
+
+
+def bot_installer():
+    pip.main(['install', '-e', 'Chatbot_8/'])

@@ -4,6 +4,8 @@ import psycopg2
 
 from config.gui_config import *
 
+from utils.pathutils import bot_installer
+
 import_success = False
 
 while not import_success:
@@ -17,9 +19,7 @@ while not import_success:
 
         import_success = True
     except ModuleNotFoundError:
-        import pip
-
-        pip.main(['install', '-e', 'Chatbot_8/'])
+        bot_installer()
         print("Chatbot was not installed, have installed with PIP and retrying...")
 
 logger = logging.getLogger("nltk-chatbot-functions-logger")

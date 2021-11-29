@@ -1,3 +1,21 @@
+### What is the Bot Engine?
+
+This is essentially a framework for someone to use to create their own intelligent Bot, it is designed to be modular 
+and editable - so someone can create their own frontend, change the default voices/animations for the GUI etc. Or even 
+implement their own interface for a GUI or pipe out the outputs to something like a robot head/face.
+
+It uses Chatbot_8: https://github.com/LordofBone/Chatbot_8 for the responses, which is included as a submodule which 
+is also customisable on what it is trained on.
+
+The Bot Engine adds another layer of sentiment analysis (which over time will be evolved to cover actual emotions, 
+rather than just positive/negative responses) and as mentioned the ability to output the responses via audio/visual 
+means.
+
+At the moment the default voices are the eSpeak voices and a couple of sound snippets from CABAL from the video game 
+Command and Conquer: Tiberian Sun: https://cnc-central.fandom.com/wiki/Computer_Assisted_Biologically_Augmented_Lifeform
+
+So feel free to take the code/framework and make your own bots with it.
+
 ### Setup
 
 ##### Installation
@@ -11,7 +29,22 @@ Ensure you have git installed and get Bot Engine and the Chatbot with:
 The Bot Engine is designed to use eSpeak as its native TTS; but there is no reason why this cannot be changed to use 
 something else.
 
+###### Windows
 
+Download the .msi installer from: https://github.com/espeak-ng/espeak-ng/releases
+
+Add the installation location to your PATH, eg:
+
+`C:\Program Files\eSpeak NG`
+
+###### Linux
+
+Should be as simple as:
+
+`sudo apt-get install espeak-ng`
+
+Check the User Guide for more information on both of the
+above: https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md
 
 ##### Setting up the Chatbot and Sentiment models
 

@@ -18,4 +18,4 @@ def delete_with_override(path):
 
 
 def bot_installer():
-    pip.main(['install', '-e', 'Chatbot_8/'])
+    pip.main(['install', '-e', '../Chatbot_8/'])

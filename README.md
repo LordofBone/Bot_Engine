@@ -30,6 +30,30 @@ Then set up a python venv (https://docs.python-guide.org/dev/virtualenvs/) and i
 
 `pip install -r requirements.txt`
 
+When it comes to installing this on a Raspberry Pi at the time of writing you will need the 64 bit version of the RPI
+OS (Bullseye) - https://downloads.raspberrypi.org/raspios_arm64/images/ which you can install to an SD card with the imager:
+https://www.raspberrypi.com/software/
+
+The above requirements should install everything needed, then stop at tensorflow and tensorflow-gpu.
+
+This is where at the moment, some manual intervention is required:
+
+Go here and download the wheel for 2.7.0 Python 3 64 Bit ARM:
+https://github.com/Qengineering/TensorFlow-Raspberry-Pi_64-bit
+
+Then while still in the venv made above:
+
+`PIP_EXTRA_INDEX_URL=https://snapshots.linaro.org/ldcg/python-cache/`
+`pip3 install tensorflow-2.7.0-cp39-cp39-linux_aarch64.whl`
+
+The index URL is to include tensorflow-io which is required as per the issue here:
+https://github.com/tensorflow/io/issues/1441
+
+and it grabs that wheel from:
+https://snapshots.linaro.org/ldcg/python-cache/
+
+Hopefully in-time the proper tensorflow wheel is just added to the Bullseye repo.
+
 ##### eSpeak setup
 
 The Bot Engine is designed to use eSpeak as its native TTS; but there is no reason why this cannot be changed to use 
@@ -47,7 +71,15 @@ Add the installation location to your PATH, eg:
 
 Should be as simple as:
 
-`sudo apt-get install espeak-ng`
+`sudo apt-get install espeak-ng python3-gst-1.0 espeak-ng-data libespeak-ng-dev`
+
+Then setting the voice:
+
+`espeak-ng -v gmw/en`
+
+and testing with:
+
+`espeak-ng "Hello, how are you?" 2>/dev/null`
 
 Check the User Guide for more information on both of the
 above: https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md

@@ -96,9 +96,9 @@ here - https://github.com/LordofBone/Chatbot_8#training-the-bot):
 
 Run:
 
-`python \utils\bot_db_control.py -o TRAIN`
+`python train_ai.py`
 
-This should also install the submodule 'Chatbot_8' using the command:
+This should also install the submodule 'Chatbot_8' if it's not already using the command:
 
 `pip install -e Chatbot_8/`
 
@@ -112,11 +112,8 @@ If anyone knows a better way around this than using the above pip install method
 After that it will then train the bot from the training data supplied, and also train a markovify model for the bot 
 and put it under Chatbot_8/models/markovify/bot_1.
 
-After that you will need to run the sentiment training:
-
-`python utils/sentiment_training_suite.py`
-
-Which will then download a set of various NLTK + Tensorflow datasets and models and the train on them.
+It will also run the sentiment training, which will then download a set of various NLTK + Tensorflow datasets and models
+and the train on them.
 
 The bot should now be installed, setup and ready to go.
 

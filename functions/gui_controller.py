@@ -29,7 +29,7 @@ def load_image(im):
     return [PhotoImage(file=im.filename, format='gif -index %i' % i) for i in range(frame_count)], frame_count
 
 
-# todo: make this into a superclass so someone can design their own GUI around the basic mechanics required
+# todo: make this into a superclass so someone can design their own GUI/Interface around the basic mechanics required
 class GUIController:
     def __init__(self, core_access):
 

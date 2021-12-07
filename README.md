@@ -20,21 +20,45 @@ So feel free to take the code/framework and make your own bots with it.
 
 ##### Installation
 
+###### Essential setup + Windows/Linux x86-64
+
 Ensure you have Python 3.9 installed (this is what I have been using for it so far).
+
+Install Docker:
+
+Windows - https://docs.docker.com/desktop/windows/install/
+Linux - use the script under Chatbot_8/build:
+
+`install_docker_linux.sh`
+
+Then run:
+
+`sudo usermod -aG docker "$USER"`
+
+Then reboot.
 
 Ensure you have git installed and get Bot Engine and the Chatbot with:
 
 `git clone --recursive https://github.com/LordofBone/Bot_Engine`
 
+On Linux+RPi you will also need to ensure an additional library is installed for pyscopg2:
+
+`sudo apt-get install libpq-dev`
+
+Although if you build the Chatbot Docker container from the script under Chatbot_8/Build/install_docker_linux.sh, this
+will install it for you.
+
 Then set up a python venv (https://docs.python-guide.org/dev/virtualenvs/) and install the requirements:
 
 `pip install -r requirements.txt`
 
-Just the above should suffice for Windows but when it comes to installing this on a Raspberry Pi at the time of writing 
+###### Raspberry Pi OS 64-bit ARM specific setup
+
+When it comes to installing this on a Raspberry Pi at the time of writing you will need to do the above, but also
 you will need the 64 bit version of the RPI OS (Bullseye) - https://downloads.raspberrypi.org/raspios_arm64/images/ 
 which you can install to an SD card with the imager: https://www.raspberrypi.com/software/
 
-The above requirements should install everything needed, then stop at tensorflow and tensorflow-gpu.
+The above requirements should still install everything needed, then stop at tensorflow and tensorflow-gpu.
 
 This is where at the moment, some manual intervention is required:
 
@@ -52,8 +76,8 @@ https://github.com/tensorflow/io/issues/1441
 and it grabs that wheel from:
 https://snapshots.linaro.org/ldcg/python-cache/
 
-Hopefully in-time the proper tensorflow wheel is just added to the Bullseye repo. I did try compiling Tensorflow for 
-32 bit RPi OS but it was a nightmare and I don't think was going to work - the prior OS Buster also did not have the
+Hopefully, in time, the proper tensorflow wheel is just added to the Bullseye repo. I did try compiling Tensorflow for 
+32 bit RPi OS, but it was a nightmare, and I don't think was going to work - the prior OS Buster also did not have the
 required PostgreSQL-dev-13 installation in its repo that is required.
 
 ##### eSpeak setup
@@ -69,7 +93,7 @@ Add the installation location to your PATH, eg:
 
 `C:\Program Files\eSpeak NG`
 
-###### Linux
+###### Linux (x86-64/ARM)
 
 Should be as simple as:
 
@@ -88,8 +112,40 @@ above: https://github.com/espeak-ng/espeak-ng/blob/master/docs/guide.md
 
 ##### Setting up the Chatbot and Sentiment models
 
+###### Windows/Linux x86-64
+
+Under the Chatbot_8/build directory again.
+
+Windows - should be able to run:
+
+`build_postgresql_container.cmd`
+
+Input any name for the container, input password as 'chatbot' and port as '5432' if the script asks for them.
+
+Linux - should be able to run:
+
+`build_postgresql_container_linux.sh <container_name> <postgres password (chatbot)> <port (5432)>`
+
+###### Raspberry Pi OS 64-bit ARM/Linux General
+
 First ensure you have a PostgreSQL server setup as per the instructions of the 
-Chatbot - https://github.com/LordofBone/Chatbot_8#docker-postgresql-installation
+Chatbot - https://github.com/LordofBone/Chatbot_8#docker-postgresql-installation - for Linux on Raspberry Pi due to the 
+fact that the 64 bit OS is required for Tensorflow you will need to use the:
+
+`build_postgresql_container_linux.sh <container_name> <postgres password (chatbot)> <port (5432)>`
+
+Script, rather than the '_pi' one, as the 64 bit OS has a different repo and doesn't require the workaround present
+there.
+
+Also install Portainer using:
+
+`portainer_build_linux.sh`
+
+Which will allow you go to localhost:9000 to administer Docker containers easily within Linux.
+
+###### Running the training
+
+Ensure the Docker container from above is running.
 
 Drop a training file into the Chatbot data path (the same instructions for the training file for the chatbot apply
 here - https://github.com/LordofBone/Chatbot_8#training-the-bot):

@@ -30,9 +30,9 @@ Then set up a python venv (https://docs.python-guide.org/dev/virtualenvs/) and i
 
 `pip install -r requirements.txt`
 
-When it comes to installing this on a Raspberry Pi at the time of writing you will need the 64 bit version of the RPI
-OS (Bullseye) - https://downloads.raspberrypi.org/raspios_arm64/images/ which you can install to an SD card with the imager:
-https://www.raspberrypi.com/software/
+Just the above should suffice for Windows but when it comes to installing this on a Raspberry Pi at the time of writing 
+you will need the 64 bit version of the RPI OS (Bullseye) - https://downloads.raspberrypi.org/raspios_arm64/images/ 
+which you can install to an SD card with the imager: https://www.raspberrypi.com/software/
 
 The above requirements should install everything needed, then stop at tensorflow and tensorflow-gpu.
 

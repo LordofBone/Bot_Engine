@@ -52,7 +52,9 @@ https://github.com/tensorflow/io/issues/1441
 and it grabs that wheel from:
 https://snapshots.linaro.org/ldcg/python-cache/
 
-Hopefully in-time the proper tensorflow wheel is just added to the Bullseye repo.
+Hopefully in-time the proper tensorflow wheel is just added to the Bullseye repo. I did try compiling Tensorflow for 
+32 bit RPi OS but it was a nightmare and I don't think was going to work - the prior OS Buster also did not have the
+required PostgreSQL-dev-13 installation in its repo that is required.
 
 ##### eSpeak setup
 

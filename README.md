@@ -208,3 +208,54 @@ Contains locations for all the Tensorflow models and datasets as well as trainin
 ###### voice_config.py
 
 Here audio can be switched on or off and the varying levels of the Chat bots pitch and cadence can be adjusted.
+
+##### Adding an output interface
+
+By default, the tkinter GUI is used to display an output of a face with animations; but it can be set to terminal mode 
+by going to config/machine_interface_config.py - 'interface_mode' to 'TERM' rather than 'GUI'. This setting is then 
+used under 'functions/core_systems.py':
+
+    def boot(self):
+        if interface_mode == "GUI":
+            gui_control = GUIController(self)
+            gui_control.begin()
+        elif interface_mode == "TERM":
+            VoiceControllerAccess.play_online()
+            term_control = TerminalController(self)
+            term_control.talk_loop()
+        elif interface_mode == "ROBOT":
+            VoiceControllerAccess.play_online()
+            term_control = TerminalController(self)
+            term_control.talk_loop()
+
+So it can be expanded out with your own frontend, by passing in the CoreSystem class to another class in a new module 
+this way the chatbots functions can be accessed:
+
+        self.core_access.bot_talk_io("hello")
+
+        intro_words = self.core_access.bot_reply
+
+You can also import the EmotionEngineInterface class from functions.emotion_controller and VoiceControllerAccess from 
+functions.voice_controller and use them to access the emotional state of the bot and also access voice controls, such 
+as:
+
+'VoiceControllerAccess.talking' which can be used in a loop to keep the animation/robotics movement going while the 
+audio is playing.
+
+The actual TTS is handled in the emotion_controller.py module:
+
+    VoiceControllerAccess.tts(reply)
+
+And this can be turned off with the audio config - config/voice_config.py
+
+This is so the bot can still output audio when in other interface modes.
+
+The emotion controller can be used to ascertain the current emotion of the bot, so it can be coded around to make faces 
+with animations, robotics or anything else:
+
+    EmotionEngineInterface.get_emotion()
+
+With the above, the config and training the chatbot on custom data - you can use the bot engine to integrate into any 
+robotics system or text only chat system.
+
+Future plans include evolving to emotion system to go beyond positive/negative.

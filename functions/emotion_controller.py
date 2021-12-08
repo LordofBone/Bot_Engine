@@ -43,7 +43,7 @@ class EmotionEngine:
                 emotional_reply = self.replies_to_emotion(replies)
                 if emotional_reply:
                     reply = emotional_reply
-
+        # todo: move this to the chatbot_functions module?
         VoiceControllerAccess.tts(reply)
 
         return reply

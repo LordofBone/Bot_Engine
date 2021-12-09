@@ -209,7 +209,17 @@ Contains locations for all the Tensorflow models and datasets as well as trainin
 
 Here audio can be switched on or off and the varying levels of the Chat bots pitch and cadence can be adjusted.
 
-##### Adding an output interface
+##### Modifying the existing GUI
+
+The bot can be modified by changing the configuration of the TTS or by replacing the TTS engine entirely.
+
+The gifs under images/ can all be replaced also with anything you like - it should work with any animations put in of 
+any length.
+
+The online/training audio samples can also be changed under audio/ although at the moment only 'online.wav' is used on
+launch of the bot.
+
+##### Adding/changing an output interface
 
 By default, the tkinter GUI is used to display an output of a face with animations; but it can be set to terminal mode 
 by going to config/machine_interface_config.py - 'interface_mode' to 'TERM' rather than 'GUI'. This setting is then 
@@ -256,6 +266,6 @@ with animations, robotics or anything else:
     EmotionEngineInterface.get_emotion()
 
 With the above, the config and training the chatbot on custom data - you can use the bot engine to integrate into any 
-robotics system or text only chat system.
+robotics system or basically anything else.
 
 Future plans include evolving to emotion system to go beyond positive/negative.

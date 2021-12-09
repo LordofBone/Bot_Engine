@@ -41,6 +41,10 @@ Ensure you have git installed and get Bot Engine and the Chatbot with:
 
 `git clone --recursive https://github.com/LordofBone/Bot_Engine`
 
+And if there are any updates to the chatbot in future you should be able to grab the latest code with:
+
+`git submodule update --remote --recursive`
+
 On Linux+RPi you will also need to ensure an additional library is installed for pyscopg2:
 
 `sudo apt-get install libpq-dev`

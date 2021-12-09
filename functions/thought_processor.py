@@ -7,6 +7,7 @@ from functions.chatbot_functions import BotInterface
 logger = logging.getLogger("thought-generator-logger")
 
 
+# todo: finish and implement this --currently unused--
 class ThoughtGenerator(threading.Thread):
     def __init__(self):
         super().__init__()

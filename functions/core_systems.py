@@ -6,6 +6,7 @@ from functions.emotion_controller import EmotionEngineInterface
 from functions.gui_controller import GUIController
 from functions.terminal_controller import TerminalController
 from functions.voice_controller import VoiceControllerAccess
+from functions.integration import IntegrationController
 
 
 class CoreSystem:
@@ -38,17 +39,18 @@ class CoreSystem:
 
         self.processing_reply = False
 
-        return self.bot_reply
+        return str(self.bot_reply)
+
+    def integrate(self):
+        VoiceControllerAccess.play_online()
+        integration_control = IntegrationController(self)
+        return integration_control
 
     def boot(self):
         if interface_mode == "GUI":
             gui_control = GUIController(self)
             gui_control.begin()
         elif interface_mode == "TERM":
-            VoiceControllerAccess.play_online()
-            term_control = TerminalController(self)
-            term_control.talk_loop()
-        elif interface_mode == "ROBOT":
             VoiceControllerAccess.play_online()
             term_control = TerminalController(self)
             term_control.talk_loop()

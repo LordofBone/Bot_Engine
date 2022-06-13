@@ -5,7 +5,7 @@ setup(
     version='',
     packages=['', 'config', 'functions', 'utils', 'ml'],
     install_requires=[
-        'Chatbot_8',
+        'Bot8',
         'pillow',
         'psycopg2-binary',
         'python-dateutil',

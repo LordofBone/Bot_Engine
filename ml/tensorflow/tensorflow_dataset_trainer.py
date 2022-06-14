@@ -54,6 +54,7 @@ def export_trained_model(model, raw_test_ds):
 
     return export_model_out
 
+
 # todo: folders will always exist as a part of the repo now; need to adjust to code to account for this
 def delete_model():
     if os.path.exists(f'{models_path}/saved_model'):

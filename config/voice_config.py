@@ -1,4 +1,5 @@
 audio_on = True
+cabal_voice = True
 
 default_voice_pitch = 20
 default_voice_wpm = 120

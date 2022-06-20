@@ -7,6 +7,7 @@ from functions.gui_controller import GUIController
 from functions.terminal_controller import TerminalController
 from functions.voice_controller import VoiceControllerAccess
 from functions.integration import IntegrationController
+from config.voice_config import *
 
 
 class CoreSystem:
@@ -42,7 +43,6 @@ class CoreSystem:
         return str(self.bot_reply)
 
     def integrate(self):
-        VoiceControllerAccess.play_online()
         integration_control = IntegrationController(self)
         return integration_control
 
@@ -51,9 +51,10 @@ class CoreSystem:
             gui_control = GUIController(self)
             gui_control.begin()
         elif interface_mode == "TERM":
-            VoiceControllerAccess.play_online()
             term_control = TerminalController(self)
             term_control.talk_loop()
+        if cabal_voice:
+            VoiceControllerAccess.play_online()
 
 
 CoreInterface = CoreSystem()

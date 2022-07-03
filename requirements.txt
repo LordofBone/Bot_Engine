@@ -1,5 +1,4 @@
-pillow~=8.4.0
-pip-chill
+pillow~=9.0.1
 psycopg2-binary~=2.9.2
 python-dateutil
 tqdm~=4.62.3
@@ -10,6 +9,5 @@ espeakng~=1.0.2
 nltk~=3.6.5
 matplotlib~=3.4.3
 markovify~=0.9.3
-pip~=21.3.1
 tensorflow~=2.7.0
 tensorflow-gpu~=2.7.0

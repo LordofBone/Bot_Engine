@@ -1,5 +1,11 @@
 import argparse
 import logging
+import os
+import sys
+
+chatbot_dir = os.path.join(os.path.dirname(__file__), 'Chatbot_8')
+
+sys.path.append(chatbot_dir)
 
 from functions.core_systems import CoreInterface
 

@@ -1,7 +1,7 @@
 process_emotions = True
 
 engines = ['nltk-vader', 'nltk-twitter', 'tensorflow']
-emotion_engine = engines[1]
+emotion_engine = engines[2]
 max_emotion_short_memory = 5
 
 initial_emotion_average = 0

@@ -4,23 +4,12 @@ import psycopg2
 
 from config.bot_config import *
 
-from utils.pathutils import bot_installer
-
-import_success = False
-
-while not import_success:
-    try:
-        from bot_8 import BotLoop
-        from bot_8_trainer import bot_trainer
-        from database.delete_db import delete_db
-        from database.setup_db import fresh_db_setup
-        from Chatbot_8.ml.markovify.markovify_trainer import mk_trainer
-        from Chatbot_8.ml.markovify.markovify_delete_models import mk_model_delete
-
-        import_success = True
-    except ModuleNotFoundError:
-        bot_installer()
-        print("Chatbot was not installed, have installed with PIP and retrying...")
+from Chatbot_8.bot_8 import BotLoop
+from Chatbot_8.bot_8_trainer import bot_trainer
+from Chatbot_8.database.delete_db import delete_db
+from Chatbot_8.database.setup_db import fresh_db_setup
+from Chatbot_8.ml.markovify.markovify_trainer import mk_trainer
+from Chatbot_8.ml.markovify.markovify_delete_models import mk_model_delete
 
 logger = logging.getLogger("nltk-chatbot-functions-logger")
 

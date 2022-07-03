@@ -160,17 +160,6 @@ Run:
 
 `python train_ai.py`
 
-This should also install the submodule 'Chatbot_8' if it's not already using the command:
-
-`pip install -e Chatbot_8/`
-
-If you preferred to run this yourself, you can. This is a bit of a hacky way to get around the weird directory 
-structure stuff you have to deal with in Python; I find that if I just import stuff from the Chatbot_8 directory 
-it has trouble finding the /data/training folders and stuff as Python likes to be relative to the file it's initially 
-being run from.
-
-If anyone knows a better way around this than using the above pip install method, let me know.
-
 After that it will then train the bot from the training data supplied, and also train a markovify model for the bot 
 and put it under Chatbot_8/models/markovify/bot_1.
 

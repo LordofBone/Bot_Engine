@@ -1,4 +1,10 @@
 import argparse
+import os
+import sys
+
+chatbot_dir = os.path.join(os.path.dirname(__file__), '../Chatbot_8')
+
+sys.path.append(chatbot_dir)
 
 from functions.chatbot_functions import BotInterface
 

@@ -4,6 +4,7 @@ import psycopg2
 
 from config.bot_config import *
 
+from Chatbot_8.run_container_stack import run_all
 from Chatbot_8.bot_8 import BotLoop
 from Chatbot_8.bot_8_trainer import bot_trainer
 from Chatbot_8.database.delete_db import delete_db
@@ -57,6 +58,7 @@ class BotController:
         self.bot_status = "OFFLINE"
         self.fresh_db = True
         self.reply_list = []
+        self.attempted_container_launch = False
 
         self.connect_to_bot()
 
@@ -98,6 +100,10 @@ class BotController:
     def mk_model_train(self):
         mk_trainer()
         self.fresh_db = False
+
+    def launch_portainer_container(self):
+        run_all()
+        self.attempted_container_launch = True
 
     def connect_to_bot(self):
         # Initialise chatbot with short term memory off, running inserts from a higher level to account for extra

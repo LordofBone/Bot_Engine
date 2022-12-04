@@ -42,11 +42,15 @@ class CoreSystem:
 
         return str(self.bot_reply)
 
-    def integrate(self):
+    def integrate(self, portainer_boot=False):
+        if portainer_boot:
+            BotInterface.launch_portainer_container()
         integration_control = IntegrationController(self)
         return integration_control
 
-    def boot(self):
+    def boot(self, portainer_boot=False):
+        if portainer_boot:
+            BotInterface.launch_portainer_container()
         if interface_mode == "GUI":
             gui_control = GUIController(self)
             gui_control.begin()

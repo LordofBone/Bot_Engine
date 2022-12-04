@@ -100,7 +100,7 @@ class BotController:
         self.fresh_db = False
 
     def connect_to_bot(self):
-        # Initialise chat bot with short term memory off, running inserts from a higher level to account for extra
+        # Initialise chatbot with short term memory off, running inserts from a higher level to account for extra
         # reply choice processing
         if not self.ai_chat:
             try:

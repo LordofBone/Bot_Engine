@@ -80,4 +80,4 @@ VoiceControllerAccess = VoiceController()
 
 if __name__ == "__main__":
     logging.basicConfig(level="DEBUG")
-    VoiceControllerAccess.tts("testing text to speech")
+    VoiceControllerAccess.play_training()

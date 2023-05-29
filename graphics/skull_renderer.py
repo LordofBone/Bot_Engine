@@ -18,11 +18,16 @@ class ModelRendererProcess(multiprocessing.Process):
         self.obj_path = obj_path
         self.window_size = window_size
         self._jaw_movement_enabled = multiprocessing.Value('b', False)
+        self._head_nod_enabled = multiprocessing.Value('b', False)
+        self._head_shake_enabled = multiprocessing.Value('b', False)
 
     def run(self):
         self.renderer = ModelRenderer(self.obj_path, self.window_size)
         # Pass the shared state to the renderer
         self.renderer.jaw_movement_enabled = self._jaw_movement_enabled
+        self.renderer.head_nod_enabled = self._head_nod_enabled
+        self.renderer.head_shake_enabled = self._head_shake_enabled
+
         self.renderer.mainloop()
 
     def toggle_jaw_movement(self):
@@ -38,6 +43,30 @@ class ModelRendererProcess(multiprocessing.Process):
         self._jaw_movement_enabled.value = value
         if value:
             self.renderer.jaw_movement_start_time = time.time()
+
+    def toggle_head_nod(self):
+        with self._head_nod_enabled.get_lock():
+            self._head_nod_enabled.value = not self._head_nod_enabled.value
+
+    def toggle_head_shake(self):
+        with self._head_shake_enabled.get_lock():
+            self._head_shake_enabled.value = not self._head_shake_enabled.value
+
+    @property
+    def head_nod_enabled(self):
+        return self._head_nod_enabled.value
+
+    @property
+    def head_shake_enabled(self):
+        return self._head_shake_enabled.value
+
+    @head_nod_enabled.setter
+    def head_nod_enabled(self, value):
+        self._head_nod_enabled.value = value
+
+    @head_shake_enabled.setter
+    def head_shake_enabled(self, value):
+        self._head_shake_enabled.value = value
 
 
 class ModelRenderer:
@@ -67,6 +96,11 @@ class ModelRenderer:
         self.jaw_closing_start_time = None
         self.jaw_closing_end_time = None
         self.jaw_start_position = 0
+
+        self.head_nod_enabled = None
+        self.head_shake_enabled = None
+        self.head_nod_angle = 0
+        self.head_shake_angle = 0
 
         self.setup_pygame()
         self.setup_opengl()
@@ -175,6 +209,13 @@ class ModelRenderer:
 
         return self.jaw_y_position
 
+    def update_head_actions(self):
+        if self.head_nod_enabled.value:
+            self.head_nod_angle = (self.head_nod_angle + 1) % 360
+
+        if self.head_shake_enabled.value:
+            self.head_shake_angle = (self.head_shake_angle + 1) % 360
+
     def draw_model(self):
         rotation_speed = 6  # Increase this value to make the model rotate faster
         angle = (
@@ -184,7 +225,8 @@ class ModelRenderer:
         glLoadIdentity()
         gluLookAt(0, 0, 3.5, 0, 0, 0, 0, 1, 0)  # Adjust the z-value from 10 to 8 to zoom in
 
-        # glRotatef(angle, 0, 1, 0)  # Rotate the model around the Y-axis
+        glRotatef(self.head_nod_angle, 1, 0, 0)  # Rotate the model around the X-axis
+        glRotatef(self.head_shake_angle, 0, 1, 0)  # Rotate the model around the Y-axis
 
         for name, mesh in self.scene.meshes.items():
             material = self.scene.materials['Material']
@@ -240,6 +282,8 @@ class ModelRenderer:
             glLoadIdentity()
             gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0)
 
+            self.update_head_actions()
+
             self.draw_model()
 
             pygame.display.flip()
@@ -262,14 +306,17 @@ if __name__ == "__main__":
     skull_renderer_process.toggle_jaw_movement()  # Control the jaw movement
     print("Jaw movement:", skull_renderer_process.jaw_movement_enabled)
     time.sleep(3)  # Wait for 5 seconds
+    skull_renderer_process.toggle_head_nod()  # Control the head nod
+    print("Head nod:", skull_renderer_process.head_nod_enabled)
+    time.sleep(5)  # Wait for 5 seconds
     skull_renderer_process.toggle_jaw_movement()  # Control the jaw movement
     print("Jaw movement:", skull_renderer_process.jaw_movement_enabled)
     time.sleep(9)  # Wait for 5 seconds
+    skull_renderer_process.toggle_head_shake()  # Control the head shake
+    print("Head shake:", skull_renderer_process.head_shake_enabled)
+    time.sleep(5)  # Wait for 5 seconds
     skull_renderer_process.toggle_jaw_movement()  # Control the jaw movement
     print("Jaw movement:", skull_renderer_process.jaw_movement_enabled)
     time.sleep(2)  # Wait for 5 seconds
     skull_renderer_process.toggle_jaw_movement()  # Control the jaw movement
     print("Jaw movement:", skull_renderer_process.jaw_movement_enabled)
-
-    # skull_renderer_process = ModelRenderer("objects/skull2/face.obj")
-    # skull_renderer_process.mainloop()

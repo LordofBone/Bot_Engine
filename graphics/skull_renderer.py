@@ -10,6 +10,7 @@ import time
 import os
 import multiprocessing
 from utils.shader_loader import load_shader
+from PIL import Image
 
 
 class ModelRendererProcess(multiprocessing.Process):
@@ -82,13 +83,15 @@ class ModelRenderer:
         self.scene = None
 
         # Get the directory of the current script
-        current_dir = os.path.dirname(os.path.realpath(__file__))
+        self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
         # Build the path to the vertex shader file
-        self.vertex_shader_path = os.path.join(current_dir, 'shaders', 'simple.vert')
+        self.vertex_shader_path = os.path.join(self.current_dir, 'shaders', 'simple.vert')
 
         # Build the path to the fragment shader file
-        self.fragment_shader_path = os.path.join(current_dir, 'shaders', 'lighting_toneMapping.frag')
+        self.fragment_shader_path = os.path.join(self.current_dir, 'shaders', 'lighting_toneMapping.frag')
+
+        self.head_shininess = 0.03
 
         self.jaw_y_position = 0.0
 
@@ -146,6 +149,8 @@ class ModelRenderer:
         glLinkProgram(self.shader_program)
         glUseProgram(self.shader_program)
 
+        self.setup_cubemap()
+
     def compile_shader(self, source, shader_type):
         shader = glCreateShader(shader_type)
         glShaderSource(shader, source)
@@ -158,6 +163,53 @@ class ModelRenderer:
             raise RuntimeError(f"Error compiling {shader_type_str} shader: {log}")
 
         return shader
+
+    def setup_cubemap(self):
+        right = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'right.png')
+        left = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'left.png')
+        top = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'top.png')
+        bottom = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'bottom.png')
+        front = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'front.png')
+        back = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'back.png')
+
+        # Load the cube map images
+        images = [right, left, top, bottom, front, back]
+
+        # Generate a texture id
+        texture_id = glGenTextures(1)
+
+        # Bind it as a cube map
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id)
+
+        # Set the texture parameters
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+
+        # Load each cube map face
+        for i, filename in enumerate(images):
+            # Load the image
+            img = Image.open(filename)
+            img_data = np.array(list(img.getdata()), np.uint8)
+
+            # Upload the texture data
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, img.width, img.height, 0, GL_RGB,
+                         GL_UNSIGNED_BYTE, img_data)
+
+        # Unbind the texture
+        glBindTexture(GL_TEXTURE_CUBE_MAP, 0)
+
+        # Later, when rendering:
+        glActiveTexture(GL_TEXTURE0)  # if this is the first texture
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id)
+
+        # Set the uniform in the shader
+        glUniform1i(glGetUniformLocation(self.shader_program, "cubeMap"), 0)
+
+        reflectivity_location = glGetUniformLocation(self.shader_program, "reflectivity")
+        glUniform1f(reflectivity_location, self.head_shininess)  # Change this value to control reflectivity
 
     def load_model(self):
         self.scene = pywavefront.Wavefront(self.obj_path, create_materials=True, collect_faces=True)

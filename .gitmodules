@@ -1,0 +1,3 @@
+[submodule "ai/ChattingGPT"]
+	path = ai/ChattingGPT
+	url = https://github.com/LordofBone/ChattingGPT

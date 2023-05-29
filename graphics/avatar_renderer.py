@@ -85,6 +85,9 @@ class ModelRenderer:
         # Get the directory of the current script
         self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
+        self.textures_dir = os.path.join(self.current_dir, 'textures')
+        self.cubemaps_dir = os.path.join(self.textures_dir, 'cubemaps')
+
         # Build the path to the vertex shader file
         self.vertex_shader_path = os.path.join(self.current_dir, 'shaders', 'simple.vert')
 
@@ -165,12 +168,12 @@ class ModelRenderer:
         return shader
 
     def setup_cubemap(self):
-        right = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'right.png')
-        left = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'left.png')
-        top = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'top.png')
-        bottom = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'bottom.png')
-        front = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'front.png')
-        back = os.path.join(self.current_dir, '..', 'textures', 'cubemaps', 'back.png')
+        right = os.path.join(self.cubemaps_dir, 'right.png')
+        left = os.path.join(self.cubemaps_dir, 'left.png')
+        top = os.path.join(self.cubemaps_dir, 'top.png')
+        bottom = os.path.join(self.cubemaps_dir, 'bottom.png')
+        front = os.path.join(self.cubemaps_dir, 'front.png')
+        back = os.path.join(self.cubemaps_dir, 'back.png')
 
         # Load the cube map images
         images = [right, left, top, bottom, front, back]

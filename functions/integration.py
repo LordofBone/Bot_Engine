@@ -1,5 +1,3 @@
-from functions.emotion_controller import EmotionEngineInterface
-
 
 class IntegrationController:
     def __init__(self, core_access):

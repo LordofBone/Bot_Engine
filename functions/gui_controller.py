@@ -9,7 +9,6 @@ from PIL import Image
 
 from config.gui_config import *
 from config.bot_config import *
-from functions.emotion_controller import EmotionEngineInterface
 from functions.voice_controller import VoiceControllerAccess
 
 """thanks to code from: https://stackoverflow.com/questions/43770847/play-an-animated-gif-in-python-with-tkinter"""

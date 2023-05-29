@@ -1,5 +1,5 @@
 .idea/
-stuff.txt
+misc/*
 __pycache__
 *.egg-info/
 data/nltk/*

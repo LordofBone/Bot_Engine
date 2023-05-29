@@ -102,6 +102,8 @@ class ModelRenderer:
         self.head_rotation_x = 0.0
         self.head_rotation_y = 0.0
         self.head_rotation_rate = 15.0
+        self.start_time_nod = 0.0
+        self.start_time_shake = 0.0
 
         self.setup_pygame()
         self.setup_opengl()
@@ -212,14 +214,28 @@ class ModelRenderer:
 
     def shake_head(self):
         if self.head_shake_enabled.value:
-            self.head_rotation_y = np.sin(time.time()) * self.head_rotation_rate
-
+            if self.start_time_shake == 0.0:
+                self.start_time_shake = time.time()
+            self.head_rotation_y = np.sin(time.time() - self.start_time_shake) * self.head_rotation_rate
+        else:
+            self.start_time_shake = 0.0
+            if self.head_rotation_y != 0.0:
+                self.head_rotation_y -= self.head_rotation_rate * 0.01
+                if abs(self.head_rotation_y) < self.head_rotation_rate * 0.01:
+                    self.head_rotation_y = 0.0
         return self.head_rotation_y
 
     def nod_head(self):
         if self.head_nod_enabled.value:
-            self.head_rotation_x = np.sin(time.time()) * self.head_rotation_rate
-
+            if self.start_time_nod == 0.0:
+                self.start_time_nod = time.time()
+            self.head_rotation_x = np.sin(time.time() - self.start_time_nod) * self.head_rotation_rate
+        else:
+            self.start_time_nod = 0.0
+            if self.head_rotation_x != 0.0:
+                self.head_rotation_x -= self.head_rotation_rate * 0.01
+                if abs(self.head_rotation_x) < self.head_rotation_rate * 0.01:
+                    self.head_rotation_x = 0.0
         return self.head_rotation_x
 
     def draw_model(self):

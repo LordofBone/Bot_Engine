@@ -93,6 +93,23 @@ class TestModelRendererProcess(unittest.TestCase):
         self.assertFalse(self.skull_renderer_process.head_shake_enabled)
         time.sleep(3)
 
+        # Test head nodding and shaking with jaw movement together
+        self.skull_renderer_process.toggle_jaw_movement()
+        self.skull_renderer_process.toggle_head_nod()
+        self.skull_renderer_process.toggle_head_shake()
+        self.assertTrue(self.skull_renderer_process.jaw_movement_enabled)
+        self.assertTrue(self.skull_renderer_process.head_nod_enabled)
+        self.assertTrue(self.skull_renderer_process.head_shake_enabled)
+        time.sleep(6)
+
+        self.skull_renderer_process.toggle_jaw_movement()
+        self.skull_renderer_process.toggle_head_nod()
+        self.skull_renderer_process.toggle_head_shake()
+        self.assertFalse(self.skull_renderer_process.jaw_movement_enabled)
+        self.assertFalse(self.skull_renderer_process.head_nod_enabled)
+        self.assertFalse(self.skull_renderer_process.head_shake_enabled)
+        time.sleep(3)
+
 
 if __name__ == '__main__':
     unittest.main()

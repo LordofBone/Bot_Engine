@@ -1,5 +1,6 @@
 varying vec3 normal;
 varying vec3 vertex;
+uniform float reflectivity;
 uniform samplerCube cubeMap;
 
 vec3 ReinhardToneMapping(vec3 color)
@@ -34,6 +35,12 @@ void main()
                        (material_color * gl_LightSource[0].diffuse * diffuse) +
                        (gl_FrontMaterial.specular * gl_LightSource[0].specular * specular);
     final_color.rgb *= material_color.rgb;
+
+    // Add reflection from the cube map
+    vec3 reflected_color = textureCube(cubeMap, reflection_vector).rgb;
+
+    // Reflectivity factor
+    final_color += reflectivity * reflected_color;
 
     // Apply tone mapping
     final_color = ReinhardToneMapping(final_color);

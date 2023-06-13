@@ -2,17 +2,3 @@
 misc/*
 __pycache__
 *.egg-info/
-data/nltk/*
-data/tensorflow/*
-!data/nltk/.gitkeep
-!data/tensorflow/.gitkeep
-models/nltk/averaged_perceptron_tagger/*
-models/nltk/punkt/*
-models/nltk/saved_model/*
-models/nltk/vader/*
-models/tensorflow/saved_model/*
-!models/nltk/averaged_perceptron_tagger/.gitkeep
-!models/nltk/punkt/.gitkeep
-!models/nltk/saved_model/.gitkeep
-!models/nltk/vader/.gitkeep
-!models/tensorflow/saved_model/.gitkeep

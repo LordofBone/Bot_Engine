@@ -1,7 +1,7 @@
 import time
 import unittest
 from unittest.mock import patch, Mock
-from graphics.avatar_renderer import ModelRendererProcess
+from rendering.avatar_renderer import ModelRendererProcess
 from OpenGL.GL import glClearColor, glClear, GL_COLOR_BUFFER_BIT
 
 

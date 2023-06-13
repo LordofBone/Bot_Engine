@@ -16,21 +16,15 @@ from PIL import Image
 class ModelRendererProcess(multiprocessing.Process):
     def __init__(self, window_size=(800, 600)):
         super().__init__()
-        # Get the directory of the current script
-        self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
-        # Build the path to the model file
-        self.obj_path = os.path.join(self.current_dir, '..', 'models', 'face.obj')
-
-        # self.obj_path = obj_path
         self.window_size = window_size
         self._jaw_movement_enabled = multiprocessing.Value('b', False)
         self._head_nod_enabled = multiprocessing.Value('b', False)
         self._head_shake_enabled = multiprocessing.Value('b', False)
 
     def run(self):
-        self.renderer = ModelRenderer(self.obj_path, self.window_size)
-        # Pass the shared state to the renderer
+        self.renderer = ModelRenderer(self.window_size)
+        # Pass the shared state to the rendering
         self.renderer.jaw_movement_enabled = self._jaw_movement_enabled
         self.renderer.head_nod_enabled = self._head_nod_enabled
         self.renderer.head_shake_enabled = self._head_shake_enabled
@@ -77,22 +71,24 @@ class ModelRendererProcess(multiprocessing.Process):
 
 
 class ModelRenderer:
-    def __init__(self, obj_path, window_size=(800, 600)):
-        self.obj_path = obj_path
+    def __init__(self, window_size=(800, 600)):
         self.window_size = window_size
         self.scene = None
 
         # Get the directory of the current script
         self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
+        # Build the path to the model file
+        self.obj_path = os.path.join(self.current_dir, 'models', 'face.obj')
         self.textures_dir = os.path.join(self.current_dir, 'textures')
-        self.cubemaps_dir = os.path.join(self.textures_dir, 'cubemaps')
+        self.cubemaps_dir = os.path.join(self.textures_dir, 'cubemaps', 'default')
 
         # Build the path to the vertex shader file
-        self.vertex_shader_path = os.path.join(self.current_dir, 'shaders', 'simple.vert')
+        self.vertex_shader_path = os.path.join(self.current_dir, 'shaders/default', 'simple.vert')
 
         # Build the path to the fragment shader file
-        self.fragment_shader_path = os.path.join(self.current_dir, 'shaders', 'lighting_toneMapping.frag')
+        self.fragment_shader_path = os.path.join(self.current_dir, 'shaders/default',
+                                                 'lighting_toneMapping.frag')
 
         self.head_shininess = 0.03
 

@@ -79,7 +79,7 @@ class ModelRenderer:
         self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
         # Build the path to the model file
-        self.obj_path = os.path.join(self.current_dir, 'models', 'face.obj')
+        self.obj_path = os.path.join(self.current_dir, 'models', 'default', 'face.obj')
         self.textures_dir = os.path.join(self.current_dir, 'textures')
         self.cubemaps_dir = os.path.join(self.textures_dir, 'cubemaps', 'default')
 

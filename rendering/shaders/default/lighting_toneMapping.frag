@@ -31,9 +31,10 @@ void main()
     specular = pow(specular, gl_FrontMaterial.shininess);
 
     vec4 material_color = gl_FrontMaterial.diffuse;
-    vec3 final_color = (gl_FrontMaterial.emission + gl_FrontMaterial.ambient * gl_LightSource[0].ambient) +
-                       (material_color * gl_LightSource[0].diffuse * diffuse) +
-                       (gl_FrontMaterial.specular * gl_LightSource[0].specular * specular);
+    vec3 final_color = (gl_FrontMaterial.emission.rgb + gl_FrontMaterial.ambient.rgb * gl_LightSource[0].ambient.rgb) +
+                       (material_color.rgb * gl_LightSource[0].diffuse.rgb * diffuse) +
+                       (gl_FrontMaterial.specular.rgb * gl_LightSource[0].specular.rgb * specular);
+
     final_color.rgb *= material_color.rgb;
 
     // Add reflection from the cube map

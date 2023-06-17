@@ -7,9 +7,9 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import numpy as np
 import time
-import os
 import multiprocessing
-from utils.shader_loader import load_shader
+from rendering.shaders.shader_engine import ShaderEngine
+from config.path_config import *
 from PIL import Image
 
 
@@ -75,21 +75,6 @@ class ModelRenderer:
         self.window_size = window_size
         self.scene = None
 
-        # Get the directory of the current script
-        self.current_dir = os.path.dirname(os.path.realpath(__file__))
-
-        # Build the path to the model file
-        self.obj_path = os.path.join(self.current_dir, 'models', 'default', 'face.obj')
-        self.textures_dir = os.path.join(self.current_dir, 'textures')
-        self.cubemaps_dir = os.path.join(self.textures_dir, 'cubemaps', 'default')
-
-        # Build the path to the vertex shader file
-        self.vertex_shader_path = os.path.join(self.current_dir, 'shaders/default', 'simple.vert')
-
-        # Build the path to the fragment shader file
-        self.fragment_shader_path = os.path.join(self.current_dir, 'shaders/default',
-                                                 'lighting_toneMapping.frag')
-
         self.head_shininess = 0.03
 
         self.jaw_y_position = 0.0
@@ -133,43 +118,19 @@ class ModelRenderer:
         gluPerspective(45, self.window_size[0] / self.window_size[1], 0.1, 50.0)
         glMatrixMode(GL_MODELVIEW)
 
-        self.init_shaders()
+        shaders = ShaderEngine(vertex_shader_path, fragment_shader_path)
 
-    def init_shaders(self):
-        vertex_shader_code = load_shader(self.vertex_shader_path)
-        fragment_shader_code = load_shader(self.fragment_shader_path)
-
-        vertex_shader = self.compile_shader(vertex_shader_code, GL_VERTEX_SHADER)
-        fragment_shader = self.compile_shader(fragment_shader_code, GL_FRAGMENT_SHADER)
-
-        self.shader_program = glCreateProgram()
-        glAttachShader(self.shader_program, vertex_shader)
-        glAttachShader(self.shader_program, fragment_shader)
-        glLinkProgram(self.shader_program)
-        glUseProgram(self.shader_program)
+        self.shader_program = shaders.init_shaders()
 
         self.setup_cubemap()
 
-    def compile_shader(self, source, shader_type):
-        shader = glCreateShader(shader_type)
-        glShaderSource(shader, source)
-        glCompileShader(shader)
-
-        status = glGetShaderiv(shader, GL_COMPILE_STATUS)
-        if not status:
-            log = glGetShaderInfoLog(shader)
-            shader_type_str = 'vertex' if shader_type == GL_VERTEX_SHADER else 'fragment'
-            raise RuntimeError(f"Error compiling {shader_type_str} shader: {log}")
-
-        return shader
-
     def setup_cubemap(self):
-        right = os.path.join(self.cubemaps_dir, 'right.png')
-        left = os.path.join(self.cubemaps_dir, 'left.png')
-        top = os.path.join(self.cubemaps_dir, 'top.png')
-        bottom = os.path.join(self.cubemaps_dir, 'bottom.png')
-        front = os.path.join(self.cubemaps_dir, 'front.png')
-        back = os.path.join(self.cubemaps_dir, 'back.png')
+        right = os.path.join(cubemaps_dir, 'right.png')
+        left = os.path.join(cubemaps_dir, 'left.png')
+        top = os.path.join(cubemaps_dir, 'top.png')
+        bottom = os.path.join(cubemaps_dir, 'bottom.png')
+        front = os.path.join(cubemaps_dir, 'front.png')
+        back = os.path.join(cubemaps_dir, 'back.png')
 
         # Load the cube map images
         images = [right, left, top, bottom, front, back]
@@ -211,7 +172,7 @@ class ModelRenderer:
         glUniform1f(reflectivity_location, self.head_shininess)  # Change this value to control reflectivity
 
     def load_model(self):
-        self.scene = pywavefront.Wavefront(self.obj_path, create_materials=True, collect_faces=True)
+        self.scene = pywavefront.Wavefront(obj_path, create_materials=True, collect_faces=True)
 
     def move_jaw(self):
         """Move the jaw up and down smoothly."""
